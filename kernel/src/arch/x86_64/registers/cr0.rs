@@ -12,9 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Copyright (c) 2025 vivo Mobile Communication Co., Ltd.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 //! CR0 register definitions
 
-use tock_registers::{register_bitfields, registers::ReadWrite};
+use tock_registers::{register_bitfields, registers::ReadOnly};
 
 register_bitfields! [usize,
     CR0 [
@@ -32,4 +46,19 @@ register_bitfields! [usize,
     ]
 ];
 
-pub static CR0: ReadWrite<usize, CR0::Register> = ReadWrite::new(0);
+struct CR0Reg;
+
+impl tock_registers::interfaces::Readable for CR0Reg {
+    type T = usize;
+    type R = CR0::Register;
+
+    fn get(&self) -> usize {
+        let val: usize;
+        unsafe {
+            core::arch::asm!("mov {}, cr0", out(reg) val, options(nostack, nomem));
+        }
+        val
+    }
+}
+
+pub static CR0: CR0Reg = CR0Reg;

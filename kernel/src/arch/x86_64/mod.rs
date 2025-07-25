@@ -49,7 +49,7 @@ macro_rules! arch_bootstrap {
         core::arch::naked_asm!(
             "
             mov rsp, {stack_end}
-            call {cont}
+            jmp {cont}
             ",
             stack_end = sym $stack_end,
             cont = sym $cont,
@@ -236,6 +236,11 @@ pub(crate) extern "C" fn switch_context_with_hook(
 ) {
     // For now, just a stub implementation
     // TODO: Implement proper context switching via syscall or interrupt
+    // This would typically involve:
+    // 1. Saving current context to saved_sp_mut
+    // 2. Calling the hook if provided
+    // 3. Restoring context from to_sp
+    // 4. Jumping to the new context
 }
 
 #[naked]
@@ -244,7 +249,7 @@ pub(crate) extern "C" fn init(_: *mut u8, stack_end: *mut u8, cont: extern "C" f
         core::arch::naked_asm!(
             "
             mov rsp, rsi
-            call rdx
+            jmp rdx
             "
         )
     }
@@ -260,7 +265,7 @@ pub(crate) extern "C" fn start_schedule(cont: extern "C" fn() -> !) {
     unsafe {
         core::arch::asm!(
             "mov rsp, {sp}",
-            "call {cont}",
+            "jmp {cont}",
             sp = in(reg) sp,
             cont = in(reg) cont,
             options(noreturn),

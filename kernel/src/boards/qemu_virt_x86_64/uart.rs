@@ -28,6 +28,20 @@ impl Uart {
 
     fn write_byte(&self, byte: u8) {
         unsafe {
+            // Wait for transmit holding register empty
+            loop {
+                let mut status: u8;
+                core::arch::asm!(
+                    "in al, dx",
+                    out("al") status,
+                    in("dx") (self.base + 5) as u16, // Line Status Register
+                    options(nostack, preserves_flags)
+                );
+                if (status & 0x20) != 0 {
+                    break;
+                }
+            }
+            
             // Write to the UART data register
             core::arch::asm!(
                 "out dx, al",

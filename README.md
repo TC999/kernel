@@ -11,7 +11,7 @@ BlueOS kernel is written in Rust, featuring security, lightweight, and generalit
 For details, please visit the BlueOS official website [kernel](https://blueos.vivo.com/kernel) page.
 
 ## Board Support
-BlueOS kernel currently supports ARM32, ARM64, RISCV32 and RISCV64 chip architectures.
+BlueOS kernel currently supports ARM32, ARM64, RISCV32, RISCV64, and x86_64 chip architectures.
 - QEMU platforms are supported for corresponding chip architectures.
 - Hardware boards support is currently in progress.
 
