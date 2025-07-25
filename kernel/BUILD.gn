@@ -72,6 +72,8 @@ if (board == "qemu_mps2_an385" || board == "qemu_mps3_an547") {
     "//external/flat_device_tree/v3.1.1:flat_device_tree",
     "//external/virtio-drivers/v0.11.0:virtio_drivers",
   ]
+} else if (board == "qemu_virt_x86_64") {
+  # x86_64 specific dependencies will go here
 }
 
 shared_rust_build_flags += [

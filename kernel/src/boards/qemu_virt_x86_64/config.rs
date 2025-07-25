@@ -12,22 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#[cfg(target_arch = "arm")]
-pub(crate) mod arm;
-#[cfg(target_arch = "arm")]
-pub(crate) use arm::*;
+use crate::arch::irq::IrqNumber;
 
-#[cfg(target_arch = "riscv64")]
-pub(crate) mod riscv64;
-#[cfg(target_arch = "riscv64")]
-pub(crate) use riscv64::*;
-
-#[cfg(target_arch = "aarch64")]
-pub(crate) mod aarch64;
-#[cfg(target_arch = "aarch64")]
-pub(crate) use aarch64::*;
-
-#[cfg(target_arch = "x86_64")]
-pub(crate) mod x86_64;
-#[cfg(target_arch = "x86_64")]
-pub(crate) use x86_64::*;
+// QEMU x86_64 "virt" machine configuration
+pub const UART0_BASE: u64 = 0x3f8; // Standard COM1 port
+pub const HEAP_SIZE: u64 = 16 * 1024 * 1024;
+pub const DRAM_BASE: u64 = 0x100000; // 1MB - above legacy regions
+pub const UART0_IRQNUM: IrqNumber = IrqNumber::new(4); // COM1 IRQ

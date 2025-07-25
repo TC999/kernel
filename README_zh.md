@@ -11,7 +11,7 @@
 具体请查看 vivo 蓝河操作系统官网[内核](https://blueos.vivo.com/kernel)页面。
 
 ## 板级支持
-蓝河操作系统内核当前支持 ARM32、ARM64、RISCV32、RISCV64 芯片架构
+蓝河操作系统内核当前支持 ARM32、ARM64、RISCV32、RISCV64、x86_64 芯片架构
 - 支持各芯片架构的 QEMU 模拟器
 - 更多的硬件开发板支持正在进行中
 
