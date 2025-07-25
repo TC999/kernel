@@ -51,7 +51,7 @@ jobs:
           cd blueos-dev
           git config --global user.name "Senpai"
           git config --global user.email "senpai@114514.com"
-          repo init -u git@github.com:vivoblueos/manifests.git -b main -m manifest.xml
+          repo init -u https://github.com/vivoblueos/manifests.git -b main -m manifest.xml
 
       - name: 同步仓库
         run: |
