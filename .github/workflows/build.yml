@@ -19,8 +19,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install language-pack-zh-hans
-      #- name: 清理磁盘
-      #  uses: rokibhasansagar/slimhub_actions@main
+      - name: 清理磁盘
+        uses: rokibhasansagar/slimhub_actions@main
           
       #- name: 检出代码
       #  uses: actions/checkout@v4
