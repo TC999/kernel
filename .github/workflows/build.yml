@@ -88,9 +88,9 @@ jobs:
 
       - name: 克隆 rust 及相关仓库
         run: |
-          git clone --depth 1 --branch blueos-dev git@github.com:vivoblueos/rust.git
-          git clone --depth 1 git@github.com:vivoblueos/cc-rs.git
-          git clone --depth 1 git@github.com:vivoblueos/libc.git
+          git clone --depth 1 --branch blueos-dev https://github.com/vivoblueos/rust.git
+          git clone --depth 1 https://github.com/vivoblueos/cc-rs.git
+          git clone --depth 1 https://github.com/vivoblueos/libc.git
 
       - name: 构建并安装 Rust 工具链
         working-directory: rust
