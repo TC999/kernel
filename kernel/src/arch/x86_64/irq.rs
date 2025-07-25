@@ -12,22 +12,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#[cfg(target_arch = "arm")]
-pub(crate) mod arm;
-#[cfg(target_arch = "arm")]
-pub(crate) use arm::*;
+//! x86_64 interrupt handling
 
-#[cfg(target_arch = "riscv64")]
-pub(crate) mod riscv64;
-#[cfg(target_arch = "riscv64")]
-pub(crate) use riscv64::*;
+use core::fmt;
 
-#[cfg(target_arch = "aarch64")]
-pub(crate) mod aarch64;
-#[cfg(target_arch = "aarch64")]
-pub(crate) use aarch64::*;
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct IrqNumber(u32);
 
-#[cfg(target_arch = "x86_64")]
-pub(crate) mod x86_64;
-#[cfg(target_arch = "x86_64")]
-pub(crate) use x86_64::*;
+impl IrqNumber {
+    pub const fn new(num: u32) -> Self {
+        Self(num)
+    }
+
+    pub fn as_u32(&self) -> u32 {
+        self.0
+    }
+}
+
+impl fmt::Display for IrqNumber {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+// x86_64 specific interrupt handlers
+pub fn init_interrupts() {
+    // TODO: Initialize IDT (Interrupt Descriptor Table)
+}
+
+pub fn handle_interrupt(_irq: IrqNumber) {
+    // TODO: Implement interrupt handling
+}

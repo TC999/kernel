@@ -12,22 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#[cfg(target_arch = "arm")]
-pub(crate) mod arm;
-#[cfg(target_arch = "arm")]
-pub(crate) use arm::*;
+//! CR3 register definitions
 
-#[cfg(target_arch = "riscv64")]
-pub(crate) mod riscv64;
-#[cfg(target_arch = "riscv64")]
-pub(crate) use riscv64::*;
+use tock_registers::{register_bitfields, registers::ReadWrite};
 
-#[cfg(target_arch = "aarch64")]
-pub(crate) mod aarch64;
-#[cfg(target_arch = "aarch64")]
-pub(crate) use aarch64::*;
+register_bitfields! [usize,
+    CR3 [
+        PWT OFFSET(3) NUMBITS(1) [], // Page-level Write-Through
+        PCD OFFSET(4) NUMBITS(1) [], // Page-level Cache Disable
+        PDB OFFSET(12) NUMBITS(40) [] // Page Directory Base
+    ]
+];
 
-#[cfg(target_arch = "x86_64")]
-pub(crate) mod x86_64;
-#[cfg(target_arch = "x86_64")]
-pub(crate) use x86_64::*;
+pub static CR3: ReadWrite<usize, CR3::Register> = ReadWrite::new(0);

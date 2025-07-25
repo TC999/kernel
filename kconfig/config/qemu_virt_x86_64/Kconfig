@@ -1,0 +1,13 @@
+choice
+    prompt "Target board"
+    default BOARD_QEMU_VIRT_X86_64
+
+    config BOARD_QEMU_VIRT_X86_64
+        bool "QEMU x86_64 virtual machine"
+        help
+          Support for QEMU x86_64 virtual machine
+endchoice
+
+config BOARD
+    string
+    default "qemu_virt_x86_64" if BOARD_QEMU_VIRT_X86_64
