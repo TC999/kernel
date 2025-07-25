@@ -1,0 +1,37 @@
+name: 单独编译 rust
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 克隆 rust 及相关仓库
+        run: |
+          git clone --depth 1 --branch blueos-dev https://github.com/vivoblueos/rust.git
+          git clone --depth 1 https://github.com/vivoblueos/cc-rs.git
+          git clone --depth 1 https://github.com/vivoblueos/libc.git
+
+      - name: 扩容
+        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+      - name: 构建并安装 Rust 工具链
+        working-directory: rust
+        env:
+          DESTDIR: ${{ github.workspace }}/rust-toolchain-install
+          CARGO_NET_GIT_FETCH_WITH_CLI: "true"
+        run: |
+          cp config.blueos.toml config.toml
+          ./x.py install -i --stage 1 compiler/rustc
+          ./x.py install -i --stage 1 library/std --target aarch64-vivo-blueos-newlib
+          ./x.py install -i --stage 1 library/std --target thumbv7m-vivo-blueos-newlibeabi
+          ./x.py install -i --stage 1 library/std --target thumbv8m.main-vivo-blueos-newlibeabihf
+          ./x.py install -i --stage 1 library/std --target riscv64-vivo-blueos
+          ./x.py install -i --stage 1 library/std --target riscv32-vivo-blueos
+          ./x.py install -i --stage 1 library/std --target riscv32imc-vivo-blueos
+          ./x.py install -i --stage 0 rustfmt
+          ./x.py install -i --stage 0 rust-analyzer
+          ./x.py install -i --stage 0 clippy
+          ./x.py install -i --stage 1 library/std --target x86_64-unknown-linux-gnu
+          cp -rav build/x86_64-unknown-linux-gnu/llvm/{bin,lib} ${{ env.DESTDIR }}/usr/local
+      - name: 设置 Rust 工具链环境变量
+        run: echo "${{ github.workspace }}/rust-toolchain-install/usr/local/bin" >> $GITHUB_PATH
