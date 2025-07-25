@@ -9,7 +9,7 @@ on:
 
 jobs:
   setup-env:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     env:
       LANG: zh_CN.UTF-8
       LANGUAGE: zh_CN:zh
@@ -19,13 +19,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install language-pack-zh-hans
-      - name: 清理磁盘
-        uses: rokibhasansagar/slimhub_actions@main
+      #- name: 清理磁盘
+      #  uses: rokibhasansagar/slimhub_actions@main
           
-      - name: 检出代码
-        uses: actions/checkout@v4
+      #- name: 检出代码
+      #  uses: actions/checkout@v4
 
       - name: 安装基础依赖
+        continue-on-error: true
         run: |
           sudo apt update
           sudo apt install -y cmake ninja-build pkg-config \
@@ -36,6 +37,26 @@ jobs:
             python3-kconfiglib clang-format yapf3
           sudo apt-get install -f
           sudo apt-get install build-essential clang
+
+      - name: 安装 repo
+        run: |
+          mkdir ~/bin
+          curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+          chmod a+x ~/bin/repo
+          sudo ln -sf ~/bin/repo /usr/bin/repo
+
+      - name: 初始化
+        run: |
+          mkdir blueos-dev
+          cd blueos-dev
+          git config --global user.name "Senpai"
+          git config --global user.email "senpai@114514.com"
+          repo init -u git@github.com:vivoblueos/manifests.git -b main -m manifest.xml
+
+      - name: 同步仓库
+        run: |
+          cd blueos-dev
+          repo sync -j$(nproc)
 
       - name: 下载 ARM 工具链
         run: |
