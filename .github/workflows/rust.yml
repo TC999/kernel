@@ -5,7 +5,21 @@ on: workflow_dispatch
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      LANG: zh_CN.UTF-8
+      LANGUAGE: zh_CN:zh
+      LC_ALL: zh_CN.UTF-8
     steps:
+      - name: 汉化
+        run: |
+          sudo apt-get update
+          sudo apt-get install language-pack-zh-hans
+      - name: 清理磁盘
+        uses: rokibhasansagar/slimhub_actions@main
+
+      - name: 安装 aarch64 工具链
+        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
       - name: 克隆 rust 及相关仓库
         run: |
           git clone --depth 1 --branch blueos-dev https://github.com/vivoblueos/rust.git
