@@ -24,9 +24,9 @@ jobs:
           # arm64
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu cmake llvm g++-aarch64-linux-gnu
           # arm
-          sudo apt-get install -y arm-none-eabi-gcc  arm-none-eabi-g++ arm-none-eabi-ar arm-none-eabi-ranlib
+          # sudo apt-get install -y arm-none-eabi-gcc  arm-none-eabi-g++ arm-none-eabi-ar arm-none-eabi-ranlib
           # riscv
-          sudo apt-get install clang clang++
+          # sudo apt-get install clang clang++
 
       - name: 克隆 rust 及相关仓库
         run: |
